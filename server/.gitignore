@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+/chatterbot
+/chatterbot_corpus
 /.pnp
 .pnp.js
 

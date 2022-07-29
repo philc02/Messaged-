@@ -75,13 +75,14 @@ export const OpenConversation = () => {
         <Form.Group className="m-2">
           <InputGroup className="mb-3">
             <Form.Control
+              className="shadow-none"
               as="textarea"
               required
               value={text}
               onChange={(e) => setText(e.target.value)}
               style={{ height: "75px", resize: "none" }}
             />
-            <Button type="submit">Send</Button>
+            <Button className="shadow-none" type="submit">Send</Button>
           </InputGroup>
         </Form.Group>
       </Form>
