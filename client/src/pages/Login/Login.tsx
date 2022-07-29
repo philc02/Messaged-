@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { Button, Container, Form } from "react-bootstrap";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 interface LoginProps {
   onIdSubmit: (id: string) => void;
@@ -28,7 +28,9 @@ const Login = (props: LoginProps) => {
         <Button type="submit" className="mr-2">
           Login
         </Button>
-        <Button variant="secondary" onClick={onCreateNewId}>Create a New ID</Button>
+        <Button variant="secondary" onClick={onCreateNewId}>
+          Create a New ID
+        </Button>
       </Form>
     </Container>
   );

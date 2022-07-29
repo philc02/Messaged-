@@ -1,8 +1,8 @@
 // @ts-nocheck
-import React, { useEffect, useRef, useState } from 'react'
-import { Button, Form, FormControl, Modal } from 'react-bootstrap'
-import { useContacts } from '../../../contexts/ContactsProvider';
-import { useConversations } from '../../../contexts/ConversationsProvider';
+import React, { useEffect, useRef, useState } from "react";
+import { Button, Form, FormControl, Modal } from "react-bootstrap";
+import { useContacts } from "../../../contexts/ContactsProvider";
+import { useConversations } from "../../../contexts/ConversationsProvider";
 interface NewContactModalProps {
   closeModal: () => void;
 }
@@ -27,34 +27,34 @@ const NewConversationModal = ({ closeModal }: NewContactModalProps) => {
       if (prevIds.includes(id)) {
         return prevIds.filter((prevId: any) => {
           return id !== prevId;
-        })
+        });
       } else {
         return [...prevIds, id];
       }
-    })
-  }
+    });
+  };
   return (
-  <>
-    <Modal.Header closeButton>Create Contact</Modal.Header>
-    <Modal.Body>
-      <Form onSubmit={handleSubmit}>
-        {contacts.map((contact: any) => {
-          return (
-            <Form.Group  controlId={contact.id} key={contact.id}>
-              <Form.Check 
-                type="checkbox"
-                checked={selectedContactIds.includes(contact.id)}
-                label={contact.name}
-                onChange={() => handleCheckboxClick(contact.id)}
-              />
-            </Form.Group> 
-          )
-        })}
-        <Button type="submit">Create</Button>
-      </Form>
-    </Modal.Body>
+    <>
+      <Modal.Header closeButton>Create Contact</Modal.Header>
+      <Modal.Body>
+        <Form onSubmit={handleSubmit}>
+          {contacts.map((contact: any) => {
+            return (
+              <Form.Group controlId={contact.id} key={contact.id}>
+                <Form.Check
+                  type="checkbox"
+                  checked={selectedContactIds.includes(contact.id)}
+                  label={contact.name}
+                  onChange={() => handleCheckboxClick(contact.id)}
+                />
+              </Form.Group>
+            );
+          })}
+          <Button type="submit">Create</Button>
+        </Form>
+      </Modal.Body>
     </>
-  )
-}
+  );
+};
 
 export default NewConversationModal;
