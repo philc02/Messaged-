@@ -1,8 +1,38 @@
 // @ts-nocheck
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Form, FormControl, Modal } from "react-bootstrap";
+import styled from "styled-components";
 import { useContacts } from "../../../contexts/ContactsProvider";
 import { useConversations } from "../../../contexts/ConversationsProvider";
+
+const StyledContact = styled.div`
+  padding: 4px 8px;
+  margin: 0px 5px;
+  border-radius: 5px;
+  border: 1px black solid;
+  /* background-color: white; */
+  &:hover {
+    background-color: #254da3;
+    * {
+      color: white
+    }
+  }
+`;
+
+const CreateButton = styled(Button) `
+    background-color: #d24662;
+    border: none;
+    border-radius: 5px;
+    /* width: 100%; */
+    outline: none;
+    &:focus {
+        background-color: #d24662;
+    }
+    &:hover {
+        background-color: #fa355c;
+    }
+`;
+
 interface NewContactModalProps {
   closeModal: () => void;
 }
@@ -23,6 +53,7 @@ const NewConversationModal = ({ closeModal }: NewContactModalProps) => {
   };
 
   const handleCheckboxClick = (id: string) => {
+    console.log(id);
     setSelectedContactIds((prevIds: any) => {
       if (prevIds.includes(id)) {
         return prevIds.filter((prevId: any) => {
@@ -35,22 +66,26 @@ const NewConversationModal = ({ closeModal }: NewContactModalProps) => {
   };
   return (
     <>
-      <Modal.Header closeButton>Create Contact</Modal.Header>
+      <Modal.Header closeButton>Create New Message</Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
-          {contacts.map((contact: any) => {
-            return (
-              <Form.Group controlId={contact.id} key={contact.id}>
-                <Form.Check
-                  type="checkbox"
-                  checked={selectedContactIds.includes(contact.id)}
-                  label={contact.name}
-                  onChange={() => handleCheckboxClick(contact.id)}
-                />
-              </Form.Group>
-            );
-          })}
-          <Button type="submit">Create</Button>
+          <div style={{ marginBottom: "30px", display: "flex", flexDirection: "row" }}>
+            {contacts.map((contact: any) => {
+              const isChecked = selectedContactIds.includes(contact.id);
+              return (
+                  <StyledContact
+                    style={{
+                      border: isChecked && "1px white solid",
+                      backgroundColor: isChecked && "#254da3"
+                    }}
+                    onClick={() => handleCheckboxClick(contact.id)}
+                  >
+                    <div style={{ color: isChecked && "white" }}>{contact.name}</div>
+                  </StyledContact>
+              );
+            })}
+          </div>
+          <CreateButton className="shadow-none" type="submit">Create</CreateButton>
         </Form>
       </Modal.Body>
     </>

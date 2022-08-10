@@ -1,6 +1,21 @@
 import React, { useRef } from "react";
 import { Button, Form, FormControl, Modal } from "react-bootstrap";
 import { useContacts } from "../../../contexts/ContactsProvider";
+import styled from "styled-components";
+
+const CreateButton = styled(Button) `
+    background-color: #d24662;
+    border: none;
+    border-radius: 5px;
+    /* width: 100%; */
+    outline: none;
+    &:focus {
+        background-color: #d24662;
+    }
+    &:hover {
+        background-color: #fa355c;
+    }
+`;
 
 interface NewContactModalProps {
   closeModal: () => void;
@@ -25,15 +40,16 @@ const NewContactModal = ({ closeModal }: NewContactModalProps) => {
       <Modal.Header closeButton>Create Contact</Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
-          <Form.Group>
-            <Form.Label>Id</Form.Label>
+          <Form.Group style={{ marginBottom: "10px" }}>
+            <Form.Label>Enter Your Friend's User ID!</Form.Label>
             <Form.Control type="text" ref={idInputRef} required />
           </Form.Group>
           <Form.Group>
-            <Form.Label>Name</Form.Label>
+            <Form.Label>What's their name?</Form.Label>
             <Form.Control type="text" ref={nameInputRef} required />
           </Form.Group>
-          <Button type="submit">Create</Button>
+          <br />
+          <CreateButton type="submit">Create</CreateButton>
         </Form>
       </Modal.Body>
     </>

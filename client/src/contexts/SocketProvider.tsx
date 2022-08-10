@@ -17,7 +17,7 @@ export function SocketProvider({ id, children }) {
       method: "POST",
       headers: new Headers({'content-type': 'application/json'}),
       body: JSON.stringify({ text: "what is your name?" })
-    }).then(res => res.json());
+    }).then(res => res);
     console.log(response);
     // console.log(response.json());
   }

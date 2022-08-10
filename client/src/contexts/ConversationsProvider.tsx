@@ -11,7 +11,7 @@ export const useConversations = () => useContext(ConversationsContext);
 
 // @ts-ignore
 export function ConversationsProvider({ id, children }) {
-  const [conversations, setConversations] = useLocalStore("conversations", []);
+  const [conversations, setConversations] = useLocalStore("conversations", [{ recipients: ['Chatbot'], messages: [] }]);
   const [selectedConversationIndex, setSelectedConversationIndex] = useState(0);
   const { contacts } = useContacts();
   const socket = useSocket();
@@ -22,12 +22,44 @@ export function ConversationsProvider({ id, children }) {
   };
 
   const addMessageToConversation = useCallback(
-    ({ recipients, text, sender }) => {
+    async ({ recipients, text, sender }) => {
       console.log("addmsg", recipients, text, sender);
+      if (recipients[0] === 'Chatbot') {
+        console.log("ASDSAD");
+          const response = await fetch("http://127.0.0.1:5000/get", {
+            mode: "cors",
+            method: "POST",
+            headers: new Headers({'content-type': 'application/json'}),
+            body: JSON.stringify({ msg: text })
+          }).then(res => res.json()).then(result => {
+            setConversations(prevConversations => {
+            const newMessage = { sender, text };
+            const newConversations = prevConversations.map((conversation) => {
+              if (arrayEquality(conversation.recipients, recipients)) {
+                console.log(conversation)
+                return {
+                  ...conversation,
+                  messages: [...conversation.messages,  newMessage, { sender: 'Chatbot', text: result.text }],
+                };
+              }
+    
+              return conversation;
+            });
+            return newConversations;
+          });
+            // console.log(newConversations);
+            
+            // console.log(result);
+          });
+          console.log("FAFAF", response)
+          return;
+      }
       setConversations((prevConversations) => {
         let madeChange = false;
         const newMessage = { sender, text };
         console.log("addmsg", prevConversations);
+        console.log("PPP", recipients[0])
+        
         const newConversations = prevConversations.map((conversation) => {
           if (arrayEquality(conversation.recipients, recipients)) {
             madeChange = true;
@@ -56,6 +88,7 @@ export function ConversationsProvider({ id, children }) {
   );
 
   useEffect(() => {
+    console.log("CONVO", conversations);
     if (socket == null) return;
 
     socket.on("receive-message", addMessageToConversation);
@@ -66,7 +99,7 @@ export function ConversationsProvider({ id, children }) {
   }, [socket, addMessageToConversation]);
 
   const sendMessage = (recipients, text) => {
-    console.log(recipients, text);
+    console.log("DFDF", recipients, text, id);
     socket.emit("send-message", { recipients, text });
 
     addMessageToConversation({ recipients, text, sender: id });

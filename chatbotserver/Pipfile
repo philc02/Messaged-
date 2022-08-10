@@ -5,11 +5,10 @@ name = "pypi"
 
 [packages]
 tensorflow = "*"
-tf-nightly-gpu = "*"
-chatterbot = "==1.0.4"
-pytz = "*"
-sqlalchemy = "==1.3.6"
-chatbotai = "==0.2.0.8"
+nltk = "*"
+flask = "*"
+keras = "*"
+flask-cors = "*"
 
 [dev-packages]
 
